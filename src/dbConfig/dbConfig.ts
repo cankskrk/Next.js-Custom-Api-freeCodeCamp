@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const connect = async () => {
+const Connect = async () => {
     try {
         mongoose.connect(process.env.MONGO_URI!) // Typescript uyarısını kaldırmak için ünlem kullandık
         const connection = mongoose.connection
@@ -18,4 +18,4 @@ const connect = async () => {
     }
 }
 
-export default connect
+export default Connect
