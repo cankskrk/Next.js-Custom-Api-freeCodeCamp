@@ -1,4 +1,3 @@
-import { NextURL } from "next/dist/server/web/next-url";
 import { NextResponse, NextRequest } from "next/server";
 
 export const middleware = (request: NextRequest) => {
@@ -18,5 +17,5 @@ export const middleware = (request: NextRequest) => {
 }
 
 export const config = {
-    matcher: ["/", "/profile/:path*", "/login", "/signup", "/profile"]
+    matcher: ["/", "/profile/:path*", "/login", "/signup", "/profile", "/verifyemail"]
 }

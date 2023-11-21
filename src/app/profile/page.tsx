@@ -8,13 +8,14 @@ import { useState } from "react";
 
 const ProfilePage = () => {
   const router = useRouter();
+
   const onLogout = async () => {
     try {
       await axios.get("/api/users/logout");
       toast.success("Logout successful");
       router.push("/login");
     } catch (err: any) {
-      console.log(err.message);
+      // console.log(err.message);
       toast.error(err.message);
     }
   };
@@ -22,8 +23,9 @@ const ProfilePage = () => {
   const [data, setData] = useState("nothing");
 
   const getUserDetails = async () => {
+    // GET request is sended to the me route
     const res = await axios.get("/api/users/me");
-    console.log(res.data);
+    // console.log(res.data);
     setData(res.data.data._id);
   };
 

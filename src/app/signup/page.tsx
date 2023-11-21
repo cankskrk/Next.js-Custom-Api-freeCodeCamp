@@ -19,18 +19,22 @@ const SignupPage = () => {
   const onSignup = async () => {
     try {
       setLoading(true);
+      // POST request is sended to the route file here
       const response = await axios.post("/api/users/signup", user);
-      console.log("Signup success", response.data);
+      //! console.log("Signup success", response.data);
+      // Toast message
       toast.success("Signup success");
+      // Redirecting to the login page
       router.push("/login");
     } catch (err: any) {
-      console.log("Signup failed", err.message);
+      //! console.log("Signup failed", err.message);
       toast.error(err.message);
     } finally {
       setLoading(false);
     }
   };
 
+  // Enabling or Disabling the button
   React.useEffect(() => {
     if (
       user.email.length > 0 &&

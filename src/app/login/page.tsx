@@ -18,18 +18,23 @@ const LoginPage = () => {
   const onLogin = async () => {
     try {
       setLoading(true);
+      // POST request is sended to the route file here
       const response = await axios.post("/api/users/login", user);
-      console.log("Login success", response.data);
+      //! console.log("Login success", response.data);
+      // Toast message
       toast.success("Login success");
+      // Redirecting to the profile page
       router.push("/profile");
     } catch (err: any) {
-      console.log("Login failed", err.message);
+      //! console.log("Login failed", err.message);
       toast.error(err.message);
     } finally {
+      // Loading is done
       setLoading(false);
     }
   };
 
+  // Disabling or Enabling the button
   React.useEffect(() => {
     if (user.email.length > 0 && user.password.length > 0) {
       setButtonDisabled(false);
