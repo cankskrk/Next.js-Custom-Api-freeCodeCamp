@@ -12,7 +12,6 @@ const VerifyEmailPage = () => {
   const verifyUserEmail = async () => {
     try {
       await axios.post("/api/users/verifyemail", { token });
-
       setVerified(true);
     } catch (err: any) {
       setError(true);
