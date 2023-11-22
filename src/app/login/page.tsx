@@ -38,7 +38,7 @@ const LoginPage = () => {
 
   const onReset = async () => {
     try {
-      await axios.post("/api/users/resetemail", resetEmail);
+      await axios.post("/api/users/identifyuser", { resetEmail });
       toast.success("Check your mailbox, please!");
       router.push("/login");
     } catch (err: any) {
@@ -56,10 +56,47 @@ const LoginPage = () => {
     }
   }, [user]);
 
+  React.useEffect(() => {
+    if (resetEmail.length > 0) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [resetEmail]);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <Toaster />
       {isResetClicked ? (
-        <div>
+        <div className="flex flex-col items-center justify-center min-h-screen py-2">
+          <label htmlFor="email">email</label>
+          <input
+            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-gray-900"
+            id="email"
+            type="text"
+            value={resetEmail}
+            onChange={(e) => setResetEmail(e.target.value)}
+            placeholder="email"
+          />
+          <button
+            onClick={onReset}
+            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
+            disabled={buttonDisabled}
+          >
+            {buttonDisabled ? "No Login" : "Login"}
+          </button>
+          <div className="flex flex-row p-4">
+            <button
+              onClick={() => {
+                setIsResetClicked(false);
+              }}
+            >
+              Back to login
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center min-h-screen py-2">
           <Toaster />
           <h1>{loading ? "Proccessing..." : "Login"}</h1>
           <hr />
@@ -93,34 +130,15 @@ const LoginPage = () => {
             <Link className="me-4" href="/signup">
               Create an account
             </Link>
-            <a
+            <button
               className="ms-4"
               onClick={() => {
-                setIsResetClicked;
+                setIsResetClicked(true);
               }}
             >
               Forgot password?
-            </a>
+            </button>
           </div>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
-          <label htmlFor="email">email</label>
-          <input
-            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-gray-900"
-            id="password"
-            type="text"
-            value={resetEmail}
-            onChange={(e) => setResetEmail(e.target.value)}
-            placeholder="password"
-          />
-          <button
-            onClick={onReset}
-            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-            disabled={buttonDisabled}
-          >
-            {buttonDisabled ? "No Login" : "Login"}
-          </button>
         </div>
       )}
     </div>

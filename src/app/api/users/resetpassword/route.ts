@@ -1,32 +1,26 @@
 import Connect from "@/dbConfig/dbConfig";
+import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/models/userModel"
 
 Connect()
 
 export const POST = async (request: NextRequest) => {
     try {
         const reqBody = await request.json()
-        const {token, password} = reqBody
+        const {password, token} = reqBody
 
-        const user = await User.findOne({forgetPasswordToken: token, forgetPasswordTokenExpiry: {$gt: Date.now()}})
-        
-        if (!user) {
+        const user = await User.findOne({verifyToken: token})
+
+        if(!user) {
             return NextResponse.json({error: "Invalid token"}, {status: 400})
         }
 
         user.password = password
-        user.forgetPasswordToken = undefined
-        user.forgetPasswordTokenExpiry = undefined
         await user.save()
 
-        return NextResponse.json({
-            message: "The password has changed successfully",
-            success: true
-        })
+        return NextResponse.redirect("/login")
 
     } catch (err: any) {
         NextResponse.json({error: err.message}, {status: 500})
-        
     }
 }
